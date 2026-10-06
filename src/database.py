@@ -12,7 +12,7 @@ class HistoryStore:
         self.path = str(path)
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as connection:
-            connection.execute("PRAGMA journal_mode=WAL")
+            connection.execute("PRAGMA journal_mode=DELETE")
             connection.execute("""CREATE TABLE IF NOT EXISTS calculation_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 expression TEXT NOT NULL,
