@@ -52,3 +52,50 @@ python -m unittest discover -s tests -v
 - `tests/`: calculation, API, persistence, and migration tests.
 
 The combined project includes detailed API and usage documents in its `docs` directory.
+## Live Demo
+
+https://jssun.pythonanywhere.com
+
+## PythonAnywhere Deployment
+
+The application uses Python 3.12 and Python standard-library modules.
+
+### Server directories
+
+- Backend source: `/home/jssun/calculator/backend/src`
+- Frontend files: `/home/jssun/calculator/frontend/src`
+- WSGI entry point: `/home/jssun/calculator/wsgi_app.py`
+- SQLite database: `/home/jssun/calculator/backend/data/calculator.db`
+
+The `wsgi_app.py` file is stored at the root of this repository.
+For this deployment, copy it to `/home/jssun/calculator/wsgi_app.py`.
+
+SQLite uses `PRAGMA journal_mode=DELETE`.
+
+### Web configuration
+
+- Source code: `/home/jssun/calculator`
+- Working directory: `/home/jssun/calculator`
+- Python version: `3.12`
+- Virtualenv: not required
+- Static file mappings: not required; the WSGI entry point serves the frontend files.
+
+### PythonAnywhere WSGI configuration
+
+Set `/var/www/jssun_pythonanywhere_com_wsgi.py` to:
+
+```python
+import sys
+
+project_path = "/home/jssun/calculator"
+
+if project_path not in sys.path:
+    sys.path.insert(0, project_path)
+
+from wsgi_app import application
+```
+
+Save the configuration and reload the web application from the Web tab.
+
+The application runs through WSGI; do not start `server.py` manually
+for the hosted website.
